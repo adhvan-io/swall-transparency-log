@@ -1,0 +1,12 @@
+{
+  "name": "swall-transparency-log",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SWALL witness signer and STH archive",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "json-canonicalize": "^1.0.6"
+  }
+}

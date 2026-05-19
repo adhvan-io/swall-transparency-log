@@ -1,0 +1,62 @@
+name: SWALL Witness
+
+# Runs every 10 minutes and on manual trigger.
+#
+# For each run:
+#   1. Fetch the latest STH from the SWALL API
+#   2. Verify the authority Ed25519 signature
+#   3. Co-sign with the witness private key and POST back to the API
+#      (Firestore stores the witnessSignature; browsers verify it in real time)
+#   4. Update sth/{date}/{treeSize}.json in this repo with the witness signature
+#      making the archive a verifiable two-signature record for each tree head
+#
+# Secrets (Settings → Secrets and variables → Actions → Secrets):
+#   WITNESS_PRIVATE_KEY  — base64url-encoded raw Ed25519 private key
+#
+# Variables (Settings → Secrets and variables → Actions → Variables):
+#   SWALL_API_BASE  — https://swall-api-836381891643.asia-northeast1.run.app
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # required to commit witness signatures back to this repo
+
+jobs:
+  witness:
+    name: Co-sign latest STH
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --omit=dev
+
+      - name: Co-sign STH and update archive
+        env:
+          WITNESS_PRIVATE_KEY: ${{ secrets.WITNESS_PRIVATE_KEY }}
+          SWALL_API_BASE:      ${{ vars.SWALL_API_BASE }}
+        run: node scripts/sign-sth.js
+
+      - name: Commit witness signature to archive
+        run: |
+          git config user.name  "swall-witness[bot]"
+          git config user.email "witness-bot@adhvan.io"
+          git add sth/
+          git diff --cached --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "witness: tree_size=$(git diff --cached --name-only | grep -o '[0-9]*\.json' | sort -n | tail -1 | tr -d '.json')"
+          git pull --rebase origin main
+          git push
