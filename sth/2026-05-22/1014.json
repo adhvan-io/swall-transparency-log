@@ -1,0 +1,9 @@
+{
+  "sth": {
+    "root": "a4f0232353a314395114fae7d3ae258eaa35570483b68ca0bbec07fc9eca81cd",
+    "treeSize": 1014,
+    "timestamp": "2026-05-22T05:38:26.536Z",
+    "nodeId": "did:web:try.adhvan.io:swall:authority"
+  },
+  "signature": "ORPTrWA1iFBMzIUUwZwFC4Yt-g17tr_KkKFFYmBb9jgY8CyAqku2XCng57NjbokXjIqEDnlAwEThmnFFB3D5BQ"
+}
