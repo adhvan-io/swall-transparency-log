@@ -5,5 +5,8 @@
     "timestamp": "2026-05-23T16:20:34.912Z",
     "nodeId": "did:web:try.adhvan.io:swall:authority"
   },
-  "signature": "w2z0PEq4pUsFEvhEZ-PBEPog-TUFpWpoUHFxtJC8ooXIpIJdsqg-HOCsM_EtPk3JhSNYkZYfJXlfQTqnr6SzDQ"
+  "signature": "w2z0PEq4pUsFEvhEZ-PBEPog-TUFpWpoUHFxtJC8ooXIpIJdsqg-HOCsM_EtPk3JhSNYkZYfJXlfQTqnr6SzDQ",
+  "witnessSignature": "KoucyjCc2jbjDUeWbyGjTwVBX_8zVhlerU4Vd1LEfJRAMQbW30z8UJb7jH2bMTouAeAqI6RUxjM8a_8N2YTMCg",
+  "witnessKeyId": "did:web:swall-api-836381891643.asia-northeast1.run.app:swall:witness#key-1",
+  "witnessedAt": "2026-05-23T17:11:10.125Z"
 }
